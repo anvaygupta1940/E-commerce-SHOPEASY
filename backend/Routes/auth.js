@@ -88,7 +88,8 @@ router.post("/signin", async (req, res) => {
 
             const tokenOption = {
                 httpOnly: true,
-                secure: true
+                secure: true,
+                sameSite: 'None'
             }
             res.status(200).cookie("token", accessToken, tokenOption).json({
                 message: "User Login successfully ...",
@@ -132,7 +133,13 @@ router.get("/user-details", authToken, async (req, res) => {
 
 router.get("/logout", async (req, res) => {
     try {
-        res.clearCookie("token");
+        const tokenOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None'
+        }
+
+        res.clearCookie("token", tokenOption);
 
         res.status(200).json({
             message: "Logout Successfully",
